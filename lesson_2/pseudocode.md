@@ -86,6 +86,7 @@ WHILE iterator <= length of numbers
 
 iterator = iterator + 1
 
+
 PRINT new_array
 
 END
