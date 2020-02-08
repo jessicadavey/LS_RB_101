@@ -56,7 +56,7 @@ monthly_payment = 19.33
 User Input:
 
 loan_amount = positive, numeric, non-zero
-annual_percentage_rate = positive, numeric, non-zero (%)
+annual_percentage_rate = positive, numeric, non-zero - % 
 loan_term_in_years = positive, numeric, non-zero
 
 Output: 
@@ -73,9 +73,53 @@ loan_term_in_months = loan_term_in_years * 12
 
 monthly_payment = loan_amount * (montly_interest_rate / (1 - (1 + monthly_interest_rate)**(-(loan_term_in_months))))
 ```
-
-
 ## Algorithm
+```ruby
+START
 
+SET loan_amount
+LOOP
+  PRINT "What is the total amount of the loan in dollars?"
+  GET loan_amount
+    IF loan_amount is valid
+      BREAK
+    ELSE
+      PRINT "Invalid input.  Please enter a positive number."
+END LOOP
+
+SET annual_percentage_rate
+LOOP
+  PRINT "What is the annual percentage rate of interest? __%"
+  GET annual_percentage_rate
+    IF annual_percentage_rate is valid
+      BREAK
+    ELSE
+      PRINT "Invalid input.  Please enter a positive number."
+END LOOP
+
+SET loan_term_in_years
+LOOP
+  PRINT "What is the loan term in years?"
+  GET loan_term_in_years
+    IF loan_term_in_years is valid
+      BREAK
+    ELSE
+      PRINT "Invalid input.  Please enter a positive number."
+END LOOP
+
+# convert all inputted strings to floats
+
+SET monthly_interest_rate = (annual_percentage_rate / 100) / 12
+SET loan_term_in_months = loan_term_in_years * 12
+
+
+# extract to separate method
+SET monthly_payment = loan_amount * (montly_interest_rate / (1 - (1 + monthly_interest_rate)**(-(loan_term_in_months))))
+
+# input validation method
+input.to_f > 0
+
+END
+```
 ## Code
 [Mortage Calculator](/mortgage_calculator.rb)
