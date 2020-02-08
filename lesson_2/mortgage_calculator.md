@@ -119,6 +119,9 @@ SET monthly_payment = loan_amount * (montly_interest_rate / (1 - (1 + monthly_in
 # input validation method
 input.to_f > 0
 
+PRINT "Your monthly loan payments are:"
+PRINT monthly_payment
+
 END
 ```
 ## Code
