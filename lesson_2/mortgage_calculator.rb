@@ -53,7 +53,7 @@ loop do
   (1 - (1 + monthly_interest_rate)**(-(loan_term_in_months))))
 
   message "Your monthly payment is:"
-  message "$#{monthly_payment.round(2)}"
+  message "$#{format('%02.2f', monthly_payment)}"
 
   message "Calculate again? (y/n)"
   answer = gets.chomp
