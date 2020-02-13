@@ -17,7 +17,7 @@ def display_possible_choices
   end
 end
 
-def display_results(player, computer)
+def find_result(player, computer)
   win_outcomes = {
     rock: ['scissors', 'lizard'], # i.e., rock beats scissors and lizard
     paper: ['rock', 'spock'],
@@ -27,39 +27,70 @@ def display_results(player, computer)
   }
 
   if win_outcomes[player.to_sym].include?(computer)
-    prompt("You won!")
+    return "player"
   elsif player == computer
-    prompt("It's a tie!")
+    return "tie"
   else
-    prompt("Computer wins!")
+    return "computer"
   end
 end
 
+
+
 loop do
-  choice = ''
+  score = {
+  player: 0,
+  computer: 0
+  }
 
   loop do
-    display_possible_choices
+    choice = ''
 
-    choice = Kernel.gets().chomp().downcase().to_sym
+    loop do
+      display_possible_choices()
 
-    if VALID_CHOICES.keys.include?(choice)
-      choice = VALID_CHOICES[choice]
-      break
-    else
-      prompt("That's not a valid choice.")
+      choice = Kernel.gets().chomp().downcase().to_sym
+
+      if VALID_CHOICES.keys.include?(choice)
+        choice = VALID_CHOICES[choice]
+        break
+      else
+        prompt("That's not a valid choice.")
+      end
     end
+
+    computer_choice = VALID_CHOICES.values.sample
+
+    Kernel.puts("You chose: #{choice}; Computer chose: #{computer_choice}")
+
+    result = find_result(choice, computer_choice)
+    puts result
+
+    # update overall score
+    if result != "tie"
+      score[result.to_sym] += 1
+    end
+
+    # display overall score
+    prompt("Score:")
+    score.each do |player, score|
+      prompt "#{player}: #{score}"
+    end
+
+    if score[:player] == 5
+      prompt("CONGRATULATIONS, YOU ARE THE GRAND WINNER!!")
+      break
+    elsif score[:computer] == 5
+      prompt("COMPUTER IS THE GRAND WINNER!!")
+      break
+    end
+
   end
-
-  computer_choice = VALID_CHOICES.values.sample
-
-  Kernel.puts("You chose: #{choice}; Computer chose: #{computer_choice}")
-
-  display_results(choice, computer_choice)
 
   prompt("Do you want to play again?")
   answer = Kernel.gets().chomp()
   break unless answer.downcase().start_with?('y')
+
 end
 
 prompt("Thank you for playing.  Goodbye!")

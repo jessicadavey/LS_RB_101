@@ -1,4 +1,4 @@
-# Rock Paper Scissors Lizard Spock
+# Rock Paper Scissors Bonus Features
 
 # Bonus 1:
 
@@ -97,5 +97,55 @@ else
   keep looping to make them choose again
 end
 ```
+
+# Bonus 3
+
+## Problem
+
+Keep track of how many wins each player has
+  - Once a player reaches five wins, the game is over
+  - Ties don't count
+
+## Examples
+```ruby
+Example output:
+
+(heading)
+ROCK PAPER SCISSORS LIZARD SPOCK
+First to 5 wins the match!
+...
+
+Computer wins!
+Score: 
+player: 4, computer: 2
+
+It's a tie!
+Score: 
+player: 4, computer: 2
+
+You win!
+Score: 
+player: 5, computer: 2
+CONGRATULATIONS, YOU ARE THE GRAND WINNER!
+Do you want to play again?
+
+```
+
+## Data Structures
+
+Hash to store numeric values as keys:
+```ruby
+score = {
+  player: 3
+  computer: 2
+}
+```
+
+## Algorithm
+
+- Each loop, increment the winner's number by one
+- When someone has reached 5 wins, break out of the loop
+- Don't increment either in case of a tie
+
 ## Code
 [rpsls.rb](/rpsls.rb)
