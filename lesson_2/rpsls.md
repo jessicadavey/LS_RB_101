@@ -64,18 +64,38 @@ end
 
 Make it so that users can type an abbreviation of each choice instead of typing out the whole thing.
 
-- rock
-- paper
-- scissors
-- lizard
-- spock
-
-
 ## Examples
+
+- rock => 'r'
+- paper => 'p'
+- scissors => 's'
+- lizard => 'l'
+- spock => 'k'
 
 ## Data Structures
 
-## Algorithm
+Use a hash as a lookup table.
+```ruby
+abbreviations = {
+  r: 'rock'
+  p: 'paper'
+  s: 'scissors'
+  l: 'lizard'
+  k: 'spock'
+}
+```
 
+Could also use the values of this hash to populate the VALID_CHOICES array.
+
+## Algorithm
+```ruby
+Get letter input from user
+
+if abbreviations.keys.include?(input.to_sym)
+  player's choice = abbrevations[input]
+else
+  keep looping to make them choose again
+end
+```
 ## Code
 [rpsls.rb](/rpsls.rb)

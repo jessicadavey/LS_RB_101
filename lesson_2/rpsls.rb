@@ -1,3 +1,13 @@
+abbreviations = {
+  r: 'rock',
+  p: 'paper',
+  s: 'scissors',
+  l: 'lizard',
+  k: 'spock'
+}
+
+
+
 VALID_CHOICES = %w(rock paper scissors lizard spock)
 
 def prompt(message)
@@ -26,10 +36,15 @@ loop do
   choice = ''
 
   loop do
-    prompt("Choose one: #{VALID_CHOICES.join(', ')}")
+    prompt("Choose one:")
+    abbreviations.each do |k, v|
+      prompt "    '#{k}' for #{v}"
+    end
+
     choice = Kernel.gets().chomp()
 
-    if VALID_CHOICES.include?(choice)
+    if abbreviations.keys.include?(choice.to_sym)
+      choice = abbreviations[choice.to_sym]
       break
     else
       prompt("That's not a valid choice.")
