@@ -1,5 +1,7 @@
 # Rock Paper Scissors Lizard Spock
 
+# Bonus 1:
+
 ## Problem
 
 Add two more options to the rock, paper, scissors game, lizard and spock, while keeping all existing functionality.
@@ -55,6 +57,25 @@ else
 end
 
 ```
+
+# Bonus 2
+
+## Problem
+
+Make it so that users can type an abbreviation of each choice instead of typing out the whole thing.
+
+- rock
+- paper
+- scissors
+- lizard
+- spock
+
+
+## Examples
+
+## Data Structures
+
+## Algorithm
 
 ## Code
 [rpsls.rb](/rpsls.rb)

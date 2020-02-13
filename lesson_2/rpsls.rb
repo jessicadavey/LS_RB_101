@@ -4,6 +4,24 @@ def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
+def display_results(player, computer)
+  win_outcomes = {
+    rock: ['scissors', 'lizard'], # i.e., rock beats scissors and lizard
+    paper: ['rock', 'spock'],
+    scissors: ['paper', 'lizard'],
+    lizard: ['paper', 'spock'],
+    spock: ['rock', 'scissors']
+  }
+
+  if win_outcomes[player.to_sym].include?(computer)
+    prompt("You won!")
+  elsif player == computer
+    prompt("It's a tie!")
+  else
+    prompt("Computer wins!")
+  end
+end
+
 loop do
   choice = ''
 
@@ -22,23 +40,8 @@ loop do
 
   Kernel.puts("You chose: #{choice}; Computer chose: #{computer_choice}")
 
-# Display who wins
-win_outcomes = {
-  rock: ['scissors', 'lizard'], # i.e., rock beats scissors and lizard
-  paper: ['rock', 'spock'],
-  scissors: ['paper', 'lizard'],
-  lizard: ['paper', 'spock'],
-  spock: ['rock', 'scissors']
-}
+  display_results(choice, computer_choice)
 
-  if win_outcomes[choice.to_sym].include?(computer_choice)
-    prompt("You won!")
-  elsif choice == computer_choice
-    prompt("It's a tie!")
-  else
-    prompt("Computer wins!")
-  end
-#######
   prompt("Do you want to play again?")
   answer = Kernel.gets().chomp()
   break unless answer.downcase().start_with?('y')
