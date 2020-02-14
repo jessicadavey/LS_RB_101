@@ -35,7 +35,15 @@ def find_result(player, computer)
   end
 end
 
-
+def display_result(result)
+  if result == "player"
+    prompt("You win!")
+  elsif result == "computer"
+    prompt("Computer wins!")
+  else
+    prompt("It's a tie!")
+  end
+end
 
 loop do
   score = {
@@ -63,8 +71,9 @@ loop do
 
     Kernel.puts("You chose: #{choice}; Computer chose: #{computer_choice}")
 
+    # display result
     result = find_result(choice, computer_choice)
-    puts result
+    display_result(result)
 
     # update overall score
     if result != "tie"
@@ -72,11 +81,12 @@ loop do
     end
 
     # display overall score
-    prompt("Score:")
-    score.each do |player, score|
-      prompt "#{player}: #{score}"
-    end
+    puts("Score: player: #{score[:player]}, computer: #{score[:computer]}")
+    puts("")
+    puts("---------------")
+    puts("")
 
+    # display end game result
     if score[:player] == 5
       prompt("CONGRATULATIONS, YOU ARE THE GRAND WINNER!!")
       break
