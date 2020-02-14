@@ -47,8 +47,8 @@ end
 
 loop do
   score = {
-  player: 0,
-  computer: 0
+    player: 0,
+    computer: 0
   }
 
   loop do
@@ -94,13 +94,11 @@ loop do
       prompt("COMPUTER IS THE GRAND WINNER!!")
       break
     end
-
   end
 
   prompt("Do you want to play again?")
   answer = Kernel.gets().chomp()
   break unless answer.downcase().start_with?('y')
-
 end
 
 prompt("Thank you for playing.  Goodbye!")
