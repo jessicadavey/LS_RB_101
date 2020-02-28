@@ -21,6 +21,8 @@ munsters.each do |name, hash|
     end
 end
 
+# or
+
 munsters.each do |name, hash|
   case hash["age"]
   when 0..17
