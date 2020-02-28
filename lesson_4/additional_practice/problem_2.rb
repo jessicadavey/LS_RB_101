@@ -6,5 +6,6 @@ ages.values.sum
 
 # or
 
-p ages.values.inject(&:+)
+ages.values.inject(&:+)
+
 
