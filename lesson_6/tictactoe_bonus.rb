@@ -76,7 +76,11 @@ def at_risk_square(brd)
   WINNING_LINES.each do |line|
     if brd.values_at(*line).count(COMPUTER_MARKER) == 2 && brd.values_at(*line).count(INITIAL_MARKER) == 1
       return (empty_squares(brd) & line).first
-    elsif brd.values_at(*line).count(PLAYER_MARKER) == 2 && brd.values_at(*line).count(INITIAL_MARKER) == 1
+    end
+  end
+  
+  WINNING_LINES.each do |line|
+    if brd.values_at(*line).count(PLAYER_MARKER) == 2 && brd.values_at(*line).count(INITIAL_MARKER) == 1
       return (empty_squares(brd) & line).first
     end
   end
@@ -87,6 +91,8 @@ def computer_places_piece!(brd)
   square = nil
   if at_risk_square(brd)
     square = at_risk_square(brd)
+  elsif empty_squares(brd).include?(5)
+    square = 5
   else
     square = empty_squares(brd).sample
   end
