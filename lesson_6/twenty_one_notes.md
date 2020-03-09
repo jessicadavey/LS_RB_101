@@ -24,10 +24,68 @@
 
   - comparing cards:
      - when both stay, compare cards
-     - 
-     - 
-# Data Structures:
+
+## Data Structures:
 
 Deck: array
   - can be 'shuffled' (array.shuffle)
   - destructively take off cards until deck is empty
+  - 
+## Algorithm
+
+### Player turn: 
+
+```ruby
+1. set player_hand = []
+2. take two cards from deck array and add to player hand
+3. show cards to player
+4. calculate hand score (don't show player)
+5. loop
+    ask "hit or stay"
+    if hit
+      add another card to player hand
+      calculate score
+      break if busted
+      go back to beginning of loop
+    if stay
+      break out of loop
+
+```
+
+
+### Calculate Score:
+
+```ruby
+input: nested array where only first value of subarry is meaningul
+[[10, x], [7, x], ["J", x]...]
+output: integer
+
+
+Steps:
+
+map outer array
+  first element of inner array
+  if it is a string other than "A", 10
+  if it is "A", calculate ace (need a method)
+
+sum the resulting array and return
+```
+
+### Calculate Ace:
+
+```ruby
+
+Example hand:
+
+[3, 4, A]
+
+aces = 11
+
+loop through hand
+if hand sum > 21
+   ace = 1
+   go to next ace
+   do the same thing again
+   
+return an array with aces converted as necessary
+```
