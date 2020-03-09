@@ -55,8 +55,8 @@ def initialize_board
 end
 
 def reset_scores!(scr)
-    scr['Player'] = 0
-    scr['Computer'] = 0
+  scr['Player'] = 0
+  scr['Computer'] = 0
 end
 
 def empty_squares(brd)
@@ -80,7 +80,7 @@ def at_risk_square(brd)
       return (empty_squares(brd) & line).first
     end
   end
-  
+
   WINNING_LINES.each do |line|
     if brd.values_at(*line).count(PLAYER_MARKER) == 2 && brd.values_at(*line).count(INITIAL_MARKER) == 1
       return (empty_squares(brd) & line).first
@@ -90,15 +90,15 @@ def at_risk_square(brd)
 end
 
 def computer_places_piece!(brd)
-  square = nil
-  if at_risk_square(brd)
-    square = at_risk_square(brd)
-  elsif empty_squares(brd).include?(5)
-    square = 5
-  else
-    square = empty_squares(brd).sample
-  end
-    brd[square] = COMPUTER_MARKER
+  square = if at_risk_square(brd)
+             at_risk_square(brd)
+           elsif empty_squares(brd).include?(5)
+             5
+           else
+             empty_squares(brd).sample
+           end
+
+  brd[square] = COMPUTER_MARKER
 end
 
 def board_full?(brd)
@@ -137,8 +137,6 @@ def detect_overall_winner(scr)
     'Player'
   elsif scr['Computer'] == 5
     'Computer'
-  else
-    nil
   end
 end
 
@@ -157,7 +155,7 @@ reset_scores!(scores)
 
 loop do
   board = initialize_board
-  
+
   choice = ""
   current_player = ""
   if MOVES_FIRST == 'Choose'
@@ -168,20 +166,14 @@ loop do
       prompt "Please answer y or n."
     end
   end
-  
-  if choice == 'y'
-    current_player = 'Player'
-  else
-    current_player = 'Computer'
-  end
-  
+
+  current_player = choice == 'y' ? 'Player' : 'Computer'
+
   loop do
-    
     display_board(board)
     place_piece!(board, current_player)
     current_player = alternate_player(current_player)
     break if someone_won?(board) || board_full?(board)
-
   end
 
   display_board(board)
@@ -192,9 +184,9 @@ loop do
   else
     prompt "It's a tie!"
   end
-  
+
   display_overall_scores(scores)
-  
+
   if overall_winner?(scores)
     prompt "#{detect_overall_winner(scores)} is the overall winner!"
     reset_scores!(scores)
