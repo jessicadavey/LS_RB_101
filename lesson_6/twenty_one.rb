@@ -1,4 +1,6 @@
-SPADE =  "\xE2\x99\xA0"
+require 'pry'
+
+SPADE = "\xE2\x99\xA0"
 HEART = "\xE2\x99\xA1"
 DIAMOND = "\xE2\x99\xA2"
 CLUB = "\xE2\x99\xA3"
@@ -10,13 +12,17 @@ def prompt(msg)
   puts "=>#{msg}"
 end
 
-def show_hand(hand)
-  cards = hand.map { |x| x.join }
-  puts cards.flatten.join(" ")
+def show_hand(hand, hide = nil)
+  cards = hand.map(&:join)
+  if !hide
+    puts cards.flatten.join(" ")
+  else
+    puts cards.first + " and unknown card"
+  end
 end
 
 def draw_card(deck)
-  deck.pop if deck.size > 0
+  deck.pop unless deck.empty?
 end
 
 def initialize_hand(hand, deck)
@@ -26,44 +32,102 @@ end
 def calculate_score(hand)
   counter = 0
   score = 0
-  
+
   loop do
     score += case hand[counter].first
-    when 2..10
-      hand[counter].first
-    when "J", "Q", "K"
-      10
-    when "A"
-      ((score + 11) > 21) ? 1 : 11
-    end
-    counter +=1
+             when 2..10
+               hand[counter].first
+             when "J", "Q", "K"
+               10
+             when "A"
+               (score + 11) > 21 ? 1 : 11
+             end
+    counter += 1
     break if counter == hand.size
   end
-  
+
   score
 end
 
-deck = VALUES.product(SUITS).shuffle
-player_hand = []
-initialize_hand(player_hand, deck)
-player_score = nil
+def busted?(score)
+  score > 21
+end
+
+def compare_scores(player_score, dealer_score)
+  if player_score > dealer_score
+    "Player wins!"
+  elsif dealer_score > player_score
+    "Dealer wins!"
+  else
+    "It's a tie!"
+  end
+end
+
+prompt "Welcome to 21!"
 
 loop do
+  deck = VALUES.product(SUITS).shuffle
+  player_hand = []
+  initialize_hand(player_hand, deck)
+  player_score = 0
+
+  dealer_hand = []
+  initialize_hand(dealer_hand, deck)
+  dealer_score = 0
+
+  loop do
+    player_score = calculate_score(player_hand)
+    prompt "Your hand:"
+    show_hand(player_hand)
+    prompt "Dealer hand:"
+    show_hand(dealer_hand, 'hide')
+
+    answer = ""
+    loop do
+      prompt "hit or stay?"
+      answer = gets.chomp.downcase
+      break if answer == 'hit' || answer == 'stay'
+      prompt "Type 'hit' or 'stay'."
+    end
+
+    break if answer == 'stay' || busted?(player_score)
+    player_hand << draw_card(deck)
+  end
+
   prompt "Your hand:"
   show_hand(player_hand)
-  
-  player_score = calculate_score(player_hand)
-  puts player_score
-  if player_score > 21
+  prompt "Your score is: #{player_score}"
+  if busted?(player_score)
     prompt "You busted!"
-    break
+    prompt "Dealer wins!"
+  else
+    prompt "You chose to stay!"
   end
-  prompt "Press 'h' to hit, any other key to stay."
+
+  if !busted?(player_score)
+    puts
+    prompt "Dealer's turn!"
+
+    loop do
+      prompt "Dealer has:"
+      show_hand(dealer_hand)
+      dealer_score = calculate_score(dealer_hand)
+      break if dealer_score >= 17 || busted?(dealer_score)
+      dealer_hand << draw_card(deck)
+    end
+
+    if busted?(dealer_score)
+      prompt "Dealer busted!"
+      prompt "Player wins!"
+    else
+      prompt "Dealer score is: #{dealer_score}"
+      prompt compare_scores(player_score, dealer_score)
+    end
+  end
+
+  prompt "Play again? y/n"
   answer = gets.chomp
-  unless answer.chr.downcase == 'h'
-    prompt "You chose to stay."
-    prompt "Your score is: #{calculate_score(player_hand)}"
-    break
-  end
-  player_hand << draw_card(deck)
+  break unless answer.downcase.chr == 'y'
 end
+
+prompt "Thank you for playing 21.  Goodbye."
