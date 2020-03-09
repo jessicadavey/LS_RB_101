@@ -30,23 +30,23 @@ def initialize_hand(hand, deck)
 end
 
 def calculate_score(hand)
-  counter = 0
-  score = 0
-
-  loop do
-    score += case hand[counter].first
-             when 2..10
-               hand[counter].first
-             when "J", "Q", "K"
-               10
-             when "A"
-               (score + 11) > 21 ? 1 : 11
-             end
-    counter += 1
-    break if counter == hand.size
+  values = hand.map { |card| card[0] }
+  sum = 0
+  values.each do |value|
+    if value == "A"
+      sum += 11
+    elsif value.to_i == 0
+      sum += 10
+    else
+      sum += value.to_i
+    end
   end
-
-  score
+  
+  values.select { |value| value == "A"}.count.times do
+    sum -= 10 if sum > 21
+  end
+  
+  sum
 end
 
 def busted?(score)
