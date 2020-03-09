@@ -8,6 +8,8 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
                 [[1, 5, 9], [3, 5, 7]]              # diagonals
 
+MOVES_FIRST = 'Choose' # Can also be hard coded to 'Player' or 'Computer'
+
 def prompt(msg)
   puts "=>#{msg}"
 end
@@ -141,17 +143,37 @@ end
 scores = {}
 reset_scores!(scores)
 
-
 loop do
   board = initialize_board
+  
+  choice = ""
+  if MOVES_FIRST == 'Choose'
+    loop do
+      prompt "Would you like to go first? (y/n)"
+      choice = gets.chomp
+      break if choice.downcase.start_with?('y') || choice.downcase.start_with?('n')
+      prompt "Please answer y or n."
+    end
+  end
+  
   loop do
-    display_board(board)
 
-    player_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
-
-    computer_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
+    if MOVES_FIRST == 'Player' || choice.chr.downcase == 'y'
+      display_board(board)
+      player_places_piece!(board)
+      break if someone_won?(board) || board_full?(board)
+  
+      computer_places_piece!(board)
+      break if someone_won?(board) || board_full?(board)
+    elsif MOVES_FIRST =='Computer' || choice.chr.downcase == 'n'
+      computer_places_piece!(board)
+      break if someone_won?(board) || board_full?(board)
+      
+      display_board(board)
+      player_places_piece!(board)
+      break if someone_won?(board) || board_full?(board)
+    end
+      
   end
 
   display_board(board)
