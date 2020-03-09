@@ -109,6 +109,18 @@ def someone_won?(brd)
   !!detect_winner(brd)
 end
 
+def place_piece!(brd, plyr)
+  if plyr == 'Player'
+    player_places_piece!(brd)
+  elsif plyr == 'Computer'
+    computer_places_piece!(brd)
+  end
+end
+
+def alternate_player(plyr)
+  plyr == 'Computer' ? 'Player' : 'Computer'
+end
+
 def detect_winner(brd)
   WINNING_LINES.each do |line|
     if brd.values_at(*line).count(PLAYER_MARKER) == 3
@@ -147,33 +159,29 @@ loop do
   board = initialize_board
   
   choice = ""
+  current_player = ""
   if MOVES_FIRST == 'Choose'
     loop do
       prompt "Would you like to go first? (y/n)"
-      choice = gets.chomp
-      break if choice.downcase.start_with?('y') || choice.downcase.start_with?('n')
+      choice = gets.chomp.downcase.chr
+      break if choice == 'y' || choice == 'n'
       prompt "Please answer y or n."
     end
   end
   
-  loop do
-
-    if MOVES_FIRST == 'Player' || choice.chr.downcase == 'y'
-      display_board(board)
-      player_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
+  if choice == 'y'
+    current_player = 'Player'
+  else
+    current_player = 'Computer'
+  end
   
-      computer_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
-    elsif MOVES_FIRST =='Computer' || choice.chr.downcase == 'n'
-      computer_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
-      
-      display_board(board)
-      player_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
-    end
-      
+  loop do
+    
+    display_board(board)
+    place_piece!(board, current_player)
+    current_player = alternate_player(current_player)
+    break if someone_won?(board) || board_full?(board)
+
   end
 
   display_board(board)
